@@ -1,0 +1,29 @@
+.haeder {
+    width: 100%;
+    background-color: green;
+}
+#menu {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: green;
+    justify-content: space-between;
+}
+#menu nav {
+    order: 1;
+    flex: 0 60%;
+    margin: 2%;
+}
+
+#menu nav a {
+    margin: 2%;
+    color: white;
+}
+.basket {
+    display: flex;
+    order: 2;
+    flex: 0 30%;
+    justify-content: end;
+    color: white;
+    margin: 2%;
+}
