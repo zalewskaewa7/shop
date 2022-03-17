@@ -30,6 +30,8 @@
         <h1>Witamy w sklepie u Ewuni!</h1>
         @include('layout.menu')
         @yield('content')
+        <div id="app"></div>
+        <script src="/js/app.js"></script>
     
     </body>
 </html>
