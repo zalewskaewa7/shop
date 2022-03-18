@@ -1,0 +1,9 @@
+.basket {
+    display: flex;
+    order: 2;
+    flex: 0 30%;
+    justify-content: flex-end;
+    align-items: center;
+    color: white;
+    margin: 2%;
+}

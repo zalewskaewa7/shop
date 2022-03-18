@@ -1,0 +1,14 @@
+#image {
+    display: flex;
+    flex: 1 50%;
+    max-width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+h1 {
+    z-index: 2;
+    position: absolute;
+    top: 40%;
+    font-size: 4rem;
+    color: rgb(121, 90, 11);
+}

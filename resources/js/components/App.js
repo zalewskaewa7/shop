@@ -1,12 +1,14 @@
 import React from "react";
+import Haeder from "./layout/Haeder";
+import Home from "./Home/Home";
 import ReactDOM from "react-dom";
 
 function App() {
-    return <div>App</div>;
+    return (
+        <div>
+            <Haeder />
+            <Home />
+        </div>
+    );
 }
-ReactDOM.render(
-    <Suspense fallback={<span>Loading...</span>}>
-        <Index />
-    </Suspense>,
-    document.getElementById("app")
-);
+ReactDOM.render(<App />, document.getElementById("app"));

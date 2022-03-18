@@ -1,0 +1,12 @@
+.navigation {
+    order: 1;
+    flex: 0 60%;
+}
+nav {
+    display: flex;
+}
+
+nav a {
+    margin: 2%;
+    color: white;
+}
