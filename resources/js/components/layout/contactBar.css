@@ -1,0 +1,9 @@
+.contactBar {
+    margin: 0;
+    background-color: rgb(145, 141, 141);
+}
+a {
+    display: flex;
+    align-items: center;
+    padding: 1%;
+}
