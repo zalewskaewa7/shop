@@ -16,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('layout.welcome');
 });
+Route::get('/sklep', function () {
+    return view('layout.welcome');
+});
+Route::get('/kontakt', function () {
+    return view('layout.welcome');
+});
 // Route::get('/menu', function () {
 //     return view('layout.menu');
 // });

@@ -1,5 +1,39 @@
-#honeyOfJar {
+.imgagesBox {
     display: flex;
-    flex: 0 40%;
+    flex-flow: row wrap;
+}
+.imageDiv {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    flex: 0 30%;
+}
+.image {
+    display: flex;
+    flex: 0 80%;
     width: 30%;
+    margin: 2%;
+}
+.honeyDescription {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+.honeyDescription ul {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: flex-start;
+    padding: 0;
+}
+
+.honeyDescription ul li {
+    list-style-type: none;
+}
+.toBasket {
+    color: red;
+    cursor: pointer;
+}
+.quantityLi {
+    display: flex;
+    flex-wrap: row wrap;
 }

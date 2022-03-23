@@ -1,10 +1,12 @@
 import React from "react";
+import { BsCart4 } from "react-icons/bs";
 import "./basket.css";
 
 function Basket() {
     return (
         <div className="basket">
-            <a href="#">Koszyk</a>
+            <BsCart4 />
+            <a href="#"> Koszyk</a>
         </div>
     );
 }
