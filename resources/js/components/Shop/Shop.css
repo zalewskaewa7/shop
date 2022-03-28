@@ -16,7 +16,7 @@
 }
 .honeyDescription {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: column wrap;
     justify-content: flex-start;
 }
 .honeyDescription ul {
@@ -32,8 +32,14 @@
 .toBasket {
     color: red;
     cursor: pointer;
+    padding: 3%;
+    width: 60%;
 }
-.quantityLi {
+.quantityDiv {
     display: flex;
     flex-wrap: row wrap;
+    margin: 1%;
+}
+.inputQuantityJars {
+    width: 20%;
 }
