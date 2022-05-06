@@ -1,26 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
+import "./Cart.css";
 
 const Cart = (props) => {
-    var quantity = props.quantity;
+    // const quantity = window.localStorage.getItem(
+    //     "quantity" + props.product.honeyType
+    // );
+    const [quantity, setQuantity] = useState(
+        window.localStorage.getItem("quantity" + props.product.honeyType)
+    );
+    function more() {
+        var newQuantity = parseInt(quantity) + 1;
+        honeyQuantity(newQuantity);
+        props.moreQuantity(props.product.price);
+    }
+    function less() {
+        if (quantity > 0) {
+            var newQuantity = parseInt(quantity) - 1;
+            honeyQuantity(newQuantity);
+            props.lessQuantity(props.product.price);
+        }
+    }
+    function honeyQuantity(newQuantity) {
+        setQuantity(newQuantity);
+        window.localStorage.setItem(
+            "quantity" + props.product.honeyType,
+            newQuantity
+        );
+    }
 
     return (
-        <div className="imageDiv">
-            <div className="honeyDescription">
+        <div className="cart">
+            <div className="cartDescription">
                 <ul>
-                    <li>
-                        ilość:{" "}
-                        <input
-                            type="number"
-                            min="0"
-                            className="inputQuantityJars"
-                            defaultValue={props.product.quantity}
-                        ></input>
-                        {props.product.quantity}
+                    <li className="quantity">
+                        <button onClick={(e) => less()}>-</button>
+                        <div>{quantity}</div>
+                        <button onClick={(e) => more()}>+</button>
                     </li>
+
                     <li>{props.product.honeyType}</li>
                     <li>{props.product.weight}</li>
-                    <li>{props.product.price}</li>
-                    <li>Wysyłka 24h</li>
+                    <li>{props.product.price}zł</li>
                 </ul>
             </div>
         </div>

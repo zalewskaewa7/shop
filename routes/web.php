@@ -22,6 +22,9 @@ Route::get('/sklep', function () {
 Route::get('/kontakt', function () {
     return view('layout.welcome');
 });
+Route::get('/koszyk', function () {
+    return view('layout.welcome');
+});
 // Route::get('/menu', function () {
 //     return view('layout.menu');
 // });

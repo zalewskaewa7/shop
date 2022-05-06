@@ -2,6 +2,6 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    background-color: rgb(172, 140, 59);
+    background-color: rgb(172, 140, 59, 0.9);
     justify-content: space-around;
 }

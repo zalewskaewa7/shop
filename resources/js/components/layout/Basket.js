@@ -6,7 +6,7 @@ function Basket() {
     return (
         <div className="basket">
             <BsCart4 />
-            <a href="#"> Koszyk</a>
+            <a href="/koszyk"> Koszyk</a>
         </div>
     );
 }

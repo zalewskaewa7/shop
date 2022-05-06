@@ -43,3 +43,20 @@
 .inputQuantityJars {
     width: 20%;
 }
+.miniBasket {
+    display: flex;
+    flex-flow: row wrap;
+    width: 60%;
+    font-size: small;
+    margin: 2%;
+    border-left: 4px solid rgb(172, 140, 59);
+    background-color: rgb(172, 140, 59, 0.5);
+}
+.totalPrice {
+    color: red;
+    display: flex;
+    flex: 1 100%;
+
+    justify-content: flex-end;
+    margin: 1% 2%;
+}
