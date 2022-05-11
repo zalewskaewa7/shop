@@ -1,0 +1,17 @@
+.productAdded {
+    padding: 3%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    left: 30%;
+    bottom: 30%;
+    right: 30%;
+    overflow: auto;
+    width: 40%;
+    height: auto;
+    background-color: rgb(172, 140, 59);
+    border-radius: 2%;
+    color: white;
+    opacity: 1;
+}

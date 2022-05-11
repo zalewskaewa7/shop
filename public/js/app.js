@@ -5390,15 +5390,12 @@ var App = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, App);
 
-    _this = _super.call(this, props); // const basket = localStorage.setItem("basket", "");
-    // const cartElementsArray = JSON.parse(
-    //     window.localStorage.getItem("basket")
-    // );
-
+    _this = _super.call(this, props);
     _this.state = {
       cartElements: [],
       quantity: 1,
-      totalPrice: 0
+      totalPrice: 0,
+      productAdded: false
     };
     _this.addToShoppingCart = _this.addToShoppingCart.bind(_assertThisInitialized(_this));
     _this.quantityJars = _this.quantityJars.bind(_assertThisInitialized(_this));
@@ -5410,18 +5407,15 @@ var App = /*#__PURE__*/function (_React$Component) {
   _createClass(App, [{
     key: "basketUpdate",
     value: function basketUpdate(row, newProduct) {
-      var oldPrice = parseInt(row.price);
-      var quantityPrice = this.state.quantity * oldPrice;
-      var parseTotalPrice = parseInt(this.state.totalPrice);
-      var newPrice = parseTotalPrice + quantityPrice;
-      console.log(quantityPrice);
-      console.log(parseTotalPrice); // this.setState({ cartElements: newProduct });
-
+      var localStoragePrice = JSON.parse(window.localStorage.getItem("price"));
+      var jarPrice = parseInt(row.price);
+      var quantityPrice = this.state.quantity * jarPrice;
+      var newPrice = localStoragePrice + quantityPrice;
       this.setState({
         quantity: 1
       });
       this.setState({
-        totalPrice: localStorage.getItem("price") + this.state.quantity * row.price
+        totalPrice: newPrice
       });
       var savecartElements = JSON.stringify(newProduct);
       var localBasket = localStorage.setItem("basket", savecartElements);
@@ -5429,10 +5423,27 @@ var App = /*#__PURE__*/function (_React$Component) {
       var quantity = localStorage.setItem("quantity" + row.honeyType, this.state.quantity);
     }
   }, {
+    key: "removeAlert",
+    value: function removeAlert() {
+      this.setState({
+        productAdded: false
+      });
+    }
+  }, {
+    key: "removeMessage",
+    value: function removeMessage() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        return _this2.removeAlert();
+      }, 3000);
+    }
+  }, {
     key: "addToShoppingCart",
     value: function addToShoppingCart(row) {
-      localStorage.removeItem("price");
-      localStorage.removeItem("basket");
+      this.setState({
+        productAdded: true
+      });
       var item = {
         id: row.honeyType,
         quantity: this.state.quantity,
@@ -5443,6 +5454,22 @@ var App = /*#__PURE__*/function (_React$Component) {
 
       if (localStorage.getItem("basket")) {
         var basket = JSON.parse(window.localStorage.getItem("basket"));
+
+        for (var i = 0; i < basket.length; i++) {
+          if (basket[i].id === item.id) {
+            basket[i].quantity = basket[i].quantity + item.quantity;
+            var quantity = localStorage.setItem("quantity" + row.honeyType, basket[i].quantity);
+            var oldPrice = JSON.parse(window.localStorage.getItem("price"));
+            var jarPrice = parseInt(row.price);
+            localStorage.setItem("price", jarPrice * item.quantity + oldPrice);
+            this.removeMessage();
+            this.setState({
+              quantity: 1
+            });
+            return;
+          }
+        }
+
         var newProduct = [item].concat(_toConsumableArray(basket));
         this.setState({
           cartElements: newProduct
@@ -5456,13 +5483,16 @@ var App = /*#__PURE__*/function (_React$Component) {
         });
         this.basketUpdate(row, _newProduct);
       }
+
+      this.removeMessage();
     }
   }, {
     key: "quantityJars",
     value: function quantityJars(e) {
       console.log(e.target.value);
+      var changedQuantity = parseInt(e.target.value);
       this.setState({
-        quantity: e.target.value
+        quantity: changedQuantity
       });
     }
   }, {
@@ -5484,20 +5514,20 @@ var App = /*#__PURE__*/function (_React$Component) {
       this.setState({
         totalPrice: newPrice
       });
-      var storagePrice = localStorage.setItem("price", newPrice); // this.setState({ quantity: this.state.quantity + 1 });
+      var storagePrice = localStorage.setItem("price", newPrice);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var cartProducts = this.state.cartElements.map(function (e) {
         return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Shop_Cart__WEBPACK_IMPORTED_MODULE_6__["default"], {
           product: e,
-          lessQuantity: _this2.lessQuantity,
-          moreQuantity: _this2.moreQuantity,
-          totalPrice: _this2.state.totalPrice,
-          quantityJars: _this2.quantityJars
+          lessQuantity: _this3.lessQuantity,
+          moreQuantity: _this3.moreQuantity,
+          totalPrice: _this3.state.totalPrice,
+          quantityJars: _this3.quantityJars
         }, e.id);
       });
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
@@ -5514,7 +5544,8 @@ var App = /*#__PURE__*/function (_React$Component) {
               quantity: this.state.quantity,
               lessQuantity: this.lessQuantity,
               moreQuantity: this.moreQuantity,
-              quantityJars: this.quantityJars
+              quantityJars: this.quantityJars,
+              productAdded: this.state.productAdded
             })
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
             path: "/koszyk",
@@ -5790,6 +5821,35 @@ var Cart = function Cart(props) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Shop/ProductAdded.js":
+/*!******************************************************!*\
+  !*** ./resources/js/components/Shop/ProductAdded.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _productAdded_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./productAdded.css */ "./resources/js/components/Shop/productAdded.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+function ProductAdded() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+    className: "productAdded",
+    children: "Dodano do koszyka"
+  });
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProductAdded);
+
+/***/ }),
+
 /***/ "./resources/js/components/Shop/Shop.js":
 /*!**********************************************!*\
   !*** ./resources/js/components/Shop/Shop.js ***!
@@ -5807,8 +5867,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Cart__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Cart */ "./resources/js/components/Shop/Cart.js");
 /* harmony import */ var _Basket__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Basket */ "./resources/js/components/Shop/Basket.js");
 /* harmony import */ var _Shop_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Shop.css */ "./resources/js/components/Shop/Shop.css");
-/* harmony import */ var history__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! history */ "./node_modules/history/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var history__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! history */ "./node_modules/history/index.js");
+/* harmony import */ var _ProductAdded__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ProductAdded */ "./resources/js/components/Shop/ProductAdded.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -5839,7 +5900,9 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var history = (0,history__WEBPACK_IMPORTED_MODULE_6__.createBrowserHistory)();
+
+
+var history = (0,history__WEBPACK_IMPORTED_MODULE_7__.createBrowserHistory)();
 
 var Shop = /*#__PURE__*/function (_React$Component) {
   _inherits(Shop, _React$Component);
@@ -5875,7 +5938,9 @@ var Shop = /*#__PURE__*/function (_React$Component) {
         _this2.setState({
           datas: response.data
         });
-      }); // this.setState({ honeyType: "" });
+      });
+      localStorage.removeItem("price");
+      localStorage.removeItem("basket"); // this.setState({ honeyType: "" });
       // this.setState({ weight: "" });
       // this.setState({ price: "" });
       // this.setState({ quantity: 1 });
@@ -5926,40 +5991,45 @@ var Shop = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       // if (window.localStorage.getItem("basket")) {
-      var cartElementsArray = JSON.parse(window.localStorage.getItem("basket"));
-      var cartProducts = cartElementsArray.map(function (e) {
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Cart__WEBPACK_IMPORTED_MODULE_2__["default"], {
-          product: e,
-          lessQuantity: _this3.props.lessQuantity,
-          moreQuantity: _this3.props.moreQuantity,
-          totalPrice: _this3.props.totalPrice,
-          quantityJars: _this3.props.quantityJars
-        }, e.id);
-      }); // }
-
-      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      // const cartElementsArray = JSON.parse(
+      //     window.localStorage.getItem("basket")
+      // );
+      // const cartProducts = cartElementsArray.map((e) => {
+      //     return (
+      //         <Cart
+      //             key={e.id}
+      //             product={e}
+      //             lessQuantity={this.props.lessQuantity}
+      //             moreQuantity={this.props.moreQuantity}
+      //             totalPrice={this.props.totalPrice}
+      //             quantityJars={this.props.quantityJars}
+      //         />
+      //     );
+      // });
+      // }
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "imgagesBox",
         children: [this.state.datas.map(function (row, index) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
             id: index,
             className: "imageDiv",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("img", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
               className: "image",
               src: "../Images/" + row.imageName,
               alt: "honeyJar"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
               className: "honeyDescription",
-              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
-                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+              children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("ul", {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
                   children: row.honeyType
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("li", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("li", {
                   children: row.weight
-                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
                   children: [row.price, "z\u0142"]
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
                 className: "quantityDiv",
-                children: ["ilo\u015B\u0107:", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
+                children: ["ilo\u015B\u0107:", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
                   id: row.imageName,
                   type: "number",
                   min: "0",
@@ -5969,9 +6039,9 @@ var Shop = /*#__PURE__*/function (_React$Component) {
                   },
                   defaultValue: 1
                 })]
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
                 children: "Wysy\u0142ka 24h"
-              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
+              }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
                 className: "toBasket",
                 onClick: function onClick() {
                   return _this3.props.addToShoppingCart(row);
@@ -5980,15 +6050,7 @@ var Shop = /*#__PURE__*/function (_React$Component) {
               })]
             })]
           }, row.id);
-        }), localStorage.getItem("basket") ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-          className: "miniBasket",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("h2", {
-            children: "Moje zakupy:"
-          }), cartProducts, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
-            className: "totalPrice",
-            children: ["Razem: ", window.localStorage.getItem("price"), " z\u0142"]
-          })]
-        }) : ""]
+        }), this.props.productAdded ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_ProductAdded__WEBPACK_IMPORTED_MODULE_5__["default"], {}) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {})]
       });
     }
   }]);
@@ -11296,6 +11358,30 @@ __webpack_require__.r(__webpack_exports__);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
 ___CSS_LOADER_EXPORT___.push([module.id, ".imgagesBox {\r\n    display: flex;\r\n    flex-flow: row wrap;\r\n}\r\n.imageDiv {\r\n    display: flex;\r\n    flex-flow: row wrap;\r\n    justify-content: center;\r\n    flex: 0 30%;\r\n}\r\n.image {\r\n    display: flex;\r\n    flex: 0 80%;\r\n    width: 30%;\r\n    margin: 2%;\r\n}\r\n.honeyDescription {\r\n    display: flex;\r\n    flex-flow: column wrap;\r\n    justify-content: flex-start;\r\n}\r\n.honeyDescription ul {\r\n    display: flex;\r\n    flex-flow: column wrap;\r\n    justify-content: flex-start;\r\n    padding: 0;\r\n}\r\n\r\n.honeyDescription ul li {\r\n    list-style-type: none;\r\n}\r\n.toBasket {\r\n    color: red;\r\n    cursor: pointer;\r\n    padding: 3%;\r\n    width: 60%;\r\n}\r\n.quantityDiv {\r\n    display: flex;\r\n    flex-wrap: row wrap;\r\n    margin: 1%;\r\n}\r\n.inputQuantityJars {\r\n    width: 20%;\r\n}\r\n.miniBasket {\r\n    display: flex;\r\n    flex-flow: row wrap;\r\n    width: 60%;\r\n    font-size: small;\r\n    margin: 2%;\r\n    border-left: 4px solid rgb(172, 140, 59);\r\n    background-color: rgb(172, 140, 59, 0.5);\r\n}\r\n.totalPrice {\r\n    color: red;\r\n    display: flex;\r\n    flex: 1 100%;\r\n\r\n    justify-content: flex-end;\r\n    margin: 1% 2%;\r\n}\r\n", ""]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/Shop/productAdded.css":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/Shop/productAdded.css ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0__);
+// Imports
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".productAdded {\r\n    padding: 3%;\r\n    display: flex;\r\n    justify-content: center;\r\n    position: fixed;\r\n    z-index: 1;\r\n    left: 30%;\r\n    bottom: 30%;\r\n    right: 30%;\r\n    overflow: auto;\r\n    width: 40%;\r\n    height: auto;\r\n    background-color: rgb(172, 140, 59);\r\n    border-radius: 2%;\r\n    color: white;\r\n    opacity: 1;\r\n}\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -70059,6 +70145,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_Shop_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
+
+/***/ }),
+
+/***/ "./resources/js/components/Shop/productAdded.css":
+/*!*******************************************************!*\
+  !*** ./resources/js/components/Shop/productAdded.css ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_productAdded_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./productAdded.css */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./resources/js/components/Shop/productAdded.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_productAdded_css__WEBPACK_IMPORTED_MODULE_1__["default"], options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_productAdded_css__WEBPACK_IMPORTED_MODULE_1__["default"].locals || {});
 
 /***/ }),
 

@@ -11,14 +11,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 class App extends React.Component {
     constructor(props) {
         super(props);
-        // const basket = localStorage.setItem("basket", "");
-        // const cartElementsArray = JSON.parse(
-        //     window.localStorage.getItem("basket")
-        // );
+
         this.state = {
             cartElements: [],
             quantity: 1,
             totalPrice: 0,
+            productAdded: false,
         };
 
         this.addToShoppingCart = this.addToShoppingCart.bind(this);
@@ -28,18 +26,17 @@ class App extends React.Component {
         this.moreQuantity = this.moreQuantity.bind(this);
     }
     basketUpdate(row, newProduct) {
-        const oldPrice = parseInt(row.price);
-        const quantityPrice = this.state.quantity * oldPrice;
-        const parseTotalPrice = parseInt(this.state.totalPrice);
-        const newPrice = parseTotalPrice + quantityPrice;
-        console.log(quantityPrice);
-        console.log(parseTotalPrice);
+        const localStoragePrice = JSON.parse(
+            window.localStorage.getItem("price")
+        );
+        const jarPrice = parseInt(row.price);
 
-        // this.setState({ cartElements: newProduct });
+        const quantityPrice = this.state.quantity * jarPrice;
+        const newPrice = localStoragePrice + quantityPrice;
+
         this.setState({ quantity: 1 });
         this.setState({
-            totalPrice:
-                localStorage.getItem("price") + this.state.quantity * row.price,
+            totalPrice: newPrice,
         });
 
         const savecartElements = JSON.stringify(newProduct);
@@ -50,10 +47,16 @@ class App extends React.Component {
             this.state.quantity
         );
     }
+    removeAlert() {
+        this.setState({ productAdded: false });
+    }
+    removeMessage() {
+        setTimeout(() => this.removeAlert(), 3000);
+    }
 
     addToShoppingCart(row) {
-        localStorage.removeItem("price");
-        localStorage.removeItem("basket");
+        this.setState({ productAdded: true });
+
         const item = {
             id: row.honeyType,
             quantity: this.state.quantity,
@@ -61,8 +64,31 @@ class App extends React.Component {
             weight: row.weight,
             price: row.price,
         };
+
         if (localStorage.getItem("basket")) {
             const basket = JSON.parse(window.localStorage.getItem("basket"));
+
+            for (var i = 0; i < basket.length; i++) {
+                if (basket[i].id === item.id) {
+                    basket[i].quantity = basket[i].quantity + item.quantity;
+                    const quantity = localStorage.setItem(
+                        "quantity" + row.honeyType,
+                        basket[i].quantity
+                    );
+                    const oldPrice = JSON.parse(
+                        window.localStorage.getItem("price")
+                    );
+                    const jarPrice = parseInt(row.price);
+                    localStorage.setItem(
+                        "price",
+                        jarPrice * item.quantity + oldPrice
+                    );
+                    this.removeMessage();
+                    this.setState({ quantity: 1 });
+                    return;
+                }
+            }
+
             const newProduct = [item, ...basket];
             this.setState({ cartElements: newProduct });
             this.basketUpdate(row, newProduct);
@@ -72,12 +98,15 @@ class App extends React.Component {
 
             this.basketUpdate(row, newProduct);
         }
+
+        this.removeMessage();
     }
 
     quantityJars(e) {
         console.log(e.target.value);
+        const changedQuantity = parseInt(e.target.value);
 
-        this.setState({ quantity: e.target.value });
+        this.setState({ quantity: changedQuantity });
     }
     lessQuantity(price) {
         var parsePrice = parseInt(price);
@@ -94,8 +123,6 @@ class App extends React.Component {
 
         this.setState({ totalPrice: newPrice });
         const storagePrice = localStorage.setItem("price", newPrice);
-
-        // this.setState({ quantity: this.state.quantity + 1 });
     }
 
     render() {
@@ -128,6 +155,7 @@ class App extends React.Component {
                                 lessQuantity={this.lessQuantity}
                                 moreQuantity={this.moreQuantity}
                                 quantityJars={this.quantityJars}
+                                productAdded={this.state.productAdded}
                             />
                         }
                     />

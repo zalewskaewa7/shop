@@ -6,6 +6,7 @@ import Basket from "./Basket";
 import "./Shop.css";
 
 import { createBrowserHistory } from "history";
+import ProductAdded from "./ProductAdded";
 
 const history = createBrowserHistory();
 class Shop extends React.Component {
@@ -28,6 +29,8 @@ class Shop extends React.Component {
         axios.get("/api/apiary").then((response) => {
             this.setState({ datas: response.data });
         });
+        localStorage.removeItem("price");
+        localStorage.removeItem("basket");
         // this.setState({ honeyType: "" });
         // this.setState({ weight: "" });
         // this.setState({ price: "" });
@@ -85,21 +88,21 @@ class Shop extends React.Component {
 
     render() {
         // if (window.localStorage.getItem("basket")) {
-        const cartElementsArray = JSON.parse(
-            window.localStorage.getItem("basket")
-        );
-        const cartProducts = cartElementsArray.map((e) => {
-            return (
-                <Cart
-                    key={e.id}
-                    product={e}
-                    lessQuantity={this.props.lessQuantity}
-                    moreQuantity={this.props.moreQuantity}
-                    totalPrice={this.props.totalPrice}
-                    quantityJars={this.props.quantityJars}
-                />
-            );
-        });
+        // const cartElementsArray = JSON.parse(
+        //     window.localStorage.getItem("basket")
+        // );
+        // const cartProducts = cartElementsArray.map((e) => {
+        //     return (
+        //         <Cart
+        //             key={e.id}
+        //             product={e}
+        //             lessQuantity={this.props.lessQuantity}
+        //             moreQuantity={this.props.moreQuantity}
+        //             totalPrice={this.props.totalPrice}
+        //             quantityJars={this.props.quantityJars}
+        //         />
+        //     );
+        // });
         // }
 
         return (
@@ -144,17 +147,8 @@ class Shop extends React.Component {
                         </div>
                     );
                 })}
-                {localStorage.getItem("basket") ? (
-                    <div className="miniBasket">
-                        <h2>Moje zakupy:</h2>
-                        {cartProducts}
-                        <div className="totalPrice">
-                            Razem: {window.localStorage.getItem("price")} zł
-                        </div>
-                    </div>
-                ) : (
-                    ""
-                )}
+
+                {this.props.productAdded ? <ProductAdded /> : <></>}
             </div>
         );
     }
