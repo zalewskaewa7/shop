@@ -7,3 +7,11 @@
     color: white;
     margin: 2%;
 }
+
+@media all and (max-width: 500px) {
+    .basket {
+        flex-direction: row;
+        flex: 0 30%;
+        /* justify-content: center; */
+    }
+}

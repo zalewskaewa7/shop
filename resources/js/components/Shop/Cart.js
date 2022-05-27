@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { AiOutlineDelete } from "react-icons/ai";
 import "./Cart.css";
 
 const Cart = (props) => {
@@ -27,10 +28,18 @@ const Cart = (props) => {
             newQuantity
         );
     }
+    function deleteItem(e, quantity) {
+        props.deleteItem(props.product, quantity);
+    }
 
     return (
         <div className="cart">
             <div className="cartDescription">
+                <div className="deleteIcon" title="usuń">
+                    <AiOutlineDelete
+                        onClick={(e) => deleteItem(props.product, quantity)}
+                    />
+                </div>
                 <ul>
                     <li className="quantity">
                         <button onClick={(e) => less()}>-</button>

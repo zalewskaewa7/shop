@@ -29,8 +29,8 @@ class Shop extends React.Component {
         axios.get("/api/apiary").then((response) => {
             this.setState({ datas: response.data });
         });
-        localStorage.removeItem("price");
-        localStorage.removeItem("basket");
+        // localStorage.removeItem("price");
+        // localStorage.removeItem("basket");
         // this.setState({ honeyType: "" });
         // this.setState({ weight: "" });
         // this.setState({ price: "" });

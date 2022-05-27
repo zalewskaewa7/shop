@@ -1,23 +1,31 @@
 .cart {
     display: flex;
     width: 100%;
-    margin: 1% 0;
+    margin: 0;
 
     background-color: rgb(172, 140, 59, 0.5);
 }
 .cartDescription {
     display: flex;
     flex: 1 100%;
+    justify-content: center;
+    padding: 2%;
 }
 .cartDescription ul {
     display: flex;
     flex-flow: row wrap;
+    justify-content: space-between;
+
     flex: 1 100%;
+    margin: 0;
+    padding: 0;
 }
 .cartDescription ul li {
-    justify-content: space-between;
+    flex-flow: row wrap;
     flex: 0 15%;
-
+    max-width: 15%;
+    text-overflow: ellipsis;
+    overflow: hidden;
     list-style-type: none;
     margin: 0 2%;
 }
@@ -31,4 +39,37 @@
 }
 button {
     margin: 1%;
+}
+.deleteIcon {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    color: red;
+    cursor: pointer;
+    margin: 2%;
+}
+
+@media all and (max-width: 500px) {
+    .cartDescription ul {
+        display: flex;
+        justify-content: center;
+    }
+    .cartDescription ul li {
+        display: flex;
+        flex: 0 70%;
+        flex-flow: row wrap;
+        max-width: 70%;
+        margin: 0 1%;
+        /* justify-content: center; */
+    }
+    .quantiy {
+        display: flex;
+
+        flex-flow: row wrap;
+    }
+    .deleteIcon {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+    }
 }

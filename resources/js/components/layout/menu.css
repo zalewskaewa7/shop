@@ -5,3 +5,10 @@
     background-color: rgb(172, 140, 59, 0.9);
     justify-content: space-around;
 }
+@media all and (max-width: 500px) {
+    #menu {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

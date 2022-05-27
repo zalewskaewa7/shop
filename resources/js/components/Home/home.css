@@ -12,3 +12,9 @@ h1 {
     font-size: 4rem;
     color: rgb(121, 90, 11);
 }
+@media all and (max-width: 500px) {
+    h1 {
+        top: 15%;
+        font-size: 2rem;
+    }
+}

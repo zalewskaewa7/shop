@@ -1,0 +1,38 @@
+.basketElements {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 2%;
+    width: 70%;
+}
+.summary {
+    display: flex;
+    justify-content: space-between;
+    color: red;
+}
+.noHoney {
+    margin: 2%;
+}
+.choice {
+    display: flex;
+    justify-content: space-between;
+    margin: 4% 2%;
+}
+.toShop,
+.toPay {
+    color: green;
+    display: flex;
+    justify-content: center;
+
+    flex: 0 40%;
+    padding: 2%;
+}
+.toPay {
+    color: red;
+}
+.toShop a {
+    text-align: center;
+}
+.toPay a {
+    text-align: center;
+}
