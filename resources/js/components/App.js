@@ -46,7 +46,7 @@ class App extends React.Component {
         const localBasket = localStorage.setItem("basket", savecartElements);
         const storagePrice = localStorage.setItem("price", newPrice);
         const quantity = localStorage.setItem(
-            "quantity" + row.honeyType,
+            row.honeyType,
             this.state.quantity
         );
     }
@@ -75,7 +75,7 @@ class App extends React.Component {
                 if (basket[i].id === item.id) {
                     basket[i].quantity = basket[i].quantity + item.quantity;
                     const quantity = localStorage.setItem(
-                        "quantity" + row.honeyType,
+                        row.honeyType,
                         basket[i].quantity
                     );
                     const oldPrice = JSON.parse(
@@ -106,7 +106,6 @@ class App extends React.Component {
     }
 
     quantityJars(e) {
-        console.log(e.target.value);
         const changedQuantity = parseInt(e.target.value);
 
         this.setState({ quantity: changedQuantity });

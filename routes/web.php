@@ -25,6 +25,9 @@ Route::get('/kontakt', function () {
 Route::get('/koszyk', function () {
     return view('layout.welcome');
 });
+Route::get('/datatosend', function () {
+    return view('layout.welcome');
+});
 // Route::get('/menu', function () {
 //     return view('layout.menu');
 // });

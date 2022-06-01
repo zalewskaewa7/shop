@@ -16,6 +16,7 @@ class Basket extends React.Component {
         this.state = {
             basketElements: [],
             basketPrice: price,
+            order: [],
         };
         this.deleteItem = this.deleteItem.bind(this);
     }
@@ -28,7 +29,6 @@ class Basket extends React.Component {
 
     deleteItem(e, quantity) {
         const basket = JSON.parse(window.localStorage.getItem("basket"));
-        const eJarHoneyPrice = e.price;
         const honeyPriceAllE = e.price * quantity;
         console.log(honeyPriceAllE);
         const element1 = JSON.stringify(e);
@@ -61,9 +61,21 @@ class Basket extends React.Component {
         // console.log(element1);
     }
 
-    toShop() {
-        console.log("lala");
+    arrayOrder() {
+        var arrayOrder = [];
+        const array = this.state.basketElements.map((e) => {
+            const honeyType = window.localStorage.getItem(e.honeyType);
+            const product = e.honeyType + ": " + honeyType;
+            arrayOrder = [product, ...arrayOrder];
+
+            this.setState({ order: arrayOrder });
+            const localStorageArrayOrder = window.localStorage.setItem(
+                "order",
+                arrayOrder
+            );
+        });
     }
+
     render() {
         const cartProducts = this.state.basketElements ? (
             this.state.basketElements.map((e) => {
@@ -80,7 +92,7 @@ class Basket extends React.Component {
                 );
             })
         ) : (
-            <>lala</>
+            <></>
         );
         return (
             <div className="basketElements">
@@ -91,13 +103,24 @@ class Basket extends React.Component {
                         {cartProducts}
 
                         <div className="summary">
-                            Razem: {window.localStorage.getItem("price")} zł
+                            Razem:{" "}
+                            {JSON.parse(window.localStorage.getItem("price")) +
+                                12}{" "}
+                            zł
                         </div>
+                        <div>
+                            {"("} {window.localStorage.getItem("price")}zł +
+                            wysyłka 12zł)
+                        </div>
+
                         <div className="choice">
                             <button className="toShop">
-                                <a href="/sklep">Kontynuuj zakupy</a>
+                                <Link to="/sklep">Kontynuuj zakupy</Link>
                             </button>
-                            <button className="toPay">
+                            <button
+                                className="toPay"
+                                onClick={(e) => this.arrayOrder()}
+                            >
                                 <Link to="/datatosend">Dostawa i Płatność</Link>
                             </button>
                         </div>
@@ -106,7 +129,7 @@ class Basket extends React.Component {
                     <div className="noHoney">
                         <h4>Nie masz jeszcze nic w koszyku </h4>
                         <button className="toShop">
-                            <a href="/sklep">Dodaj coś do koszyka</a>
+                            <Link to="/sklep">Dodaj coś do koszyka</Link>
                         </button>
                     </div>
                 )}

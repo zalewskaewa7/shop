@@ -1,12 +1,13 @@
 import React from "react";
 import { BsCart4 } from "react-icons/bs";
 import "./basket.css";
+import { Link } from "react-router-dom";
 
 function Basket() {
     return (
         <div className="basket">
             <BsCart4 />
-            <a href="/koszyk"> Koszyk</a>
+            <Link to="/koszyk"> Koszyk</Link>
         </div>
     );
 }

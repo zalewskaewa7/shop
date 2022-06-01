@@ -7,7 +7,7 @@ const Cart = (props) => {
     //     "quantity" + props.product.honeyType
     // );
     const [quantity, setQuantity] = useState(
-        window.localStorage.getItem("quantity" + props.product.honeyType)
+        window.localStorage.getItem(props.product.honeyType)
     );
     function more() {
         var newQuantity = parseInt(quantity) + 1;
@@ -23,10 +23,7 @@ const Cart = (props) => {
     }
     function honeyQuantity(newQuantity) {
         setQuantity(newQuantity);
-        window.localStorage.setItem(
-            "quantity" + props.product.honeyType,
-            newQuantity
-        );
+        window.localStorage.setItem(props.product.honeyType, newQuantity);
     }
     function deleteItem(e, quantity) {
         props.deleteItem(props.product, quantity);
