@@ -1,6 +1,7 @@
 .imgagesBox {
     display: flex;
     flex-flow: row wrap;
+    background-color: rgba(145, 141, 141, 0.52);
 }
 .imageDiv {
     display: flex;

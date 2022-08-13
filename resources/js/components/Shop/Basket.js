@@ -1,7 +1,5 @@
 import React from "react";
 import Cart from "./Cart";
-import { useLocation } from "react-router-dom";
-import basketProducts from "./basketProducts";
 import "./basket.css";
 import { createBrowserHistory } from "history";
 import { Link } from "react-router-dom";
@@ -44,7 +42,7 @@ class Basket extends React.Component {
                 const index = i;
                 const deleteElement = basket.splice(index, 1);
                 const newArray = JSON.stringify(basket);
-                // console.log(basket);
+
                 const basketUpdate = localStorage.setItem("basket", newArray);
                 this.setState({ basketElements: basket }); //<--poprawić
                 const storagePrice = localStorage.setItem(
@@ -54,11 +52,8 @@ class Basket extends React.Component {
             }
         }
 
-        // console.log(index);
-        //const element = basket.find((e) => indexOf(e));
         const element = basket.indexOf((e) => e);
         var filteredArray = basket.filter((item) => item !== e);
-        // console.log(element1);
     }
 
     arrayOrder() {

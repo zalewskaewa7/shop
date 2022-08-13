@@ -68,12 +68,6 @@ class DataToSend extends React.Component {
                     console.log(error);
                 });
 
-            // this.setState({
-            //     name: "",
-            //     surname: "",
-            //     address: "",
-            //     telephone: "",
-            // });
             console.log("udalo sie");
         } else {
             console.log("Popraw dane do wysyłki");

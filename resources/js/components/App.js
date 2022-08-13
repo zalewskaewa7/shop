@@ -8,7 +8,6 @@ import Cart from "./Shop/Cart";
 import DataToSend from "./Shop/DataToSend";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { indexOf } from "lodash";
 
 class App extends React.Component {
     constructor(props) {
@@ -142,17 +141,13 @@ class App extends React.Component {
                 const index = i;
                 const deleteElement = basket.splice(index, 1);
                 const newArray = JSON.stringify(basket);
-                // console.log(basket);
                 const basketUpdate = localStorage.setItem("basket", newArray);
                 this.setState({ cartElements: basket }); //<--poprawić
             }
         }
 
-        // console.log(index);
-        //const element = basket.find((e) => indexOf(e));
         const element = basket.indexOf((e) => e);
         var filteredArray = basket.filter((item) => item !== e);
-        // console.log(element1);
     }
     render() {
         const cartProducts = this.state.cartElements.map((e) => {

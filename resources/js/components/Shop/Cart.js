@@ -3,9 +3,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 import "./Cart.css";
 
 const Cart = (props) => {
-    // const quantity = window.localStorage.getItem(
-    //     "quantity" + props.product.honeyType
-    // );
     const [quantity, setQuantity] = useState(
         window.localStorage.getItem(props.product.honeyType)
     );
