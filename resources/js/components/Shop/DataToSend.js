@@ -28,9 +28,7 @@ class DataToSend extends React.Component {
         }
     }
     validateData(data) {
-        console.log(data);
         if (data.length >= 3) {
-            console.log("ok" + data);
             return true;
         } else {
             return false;
